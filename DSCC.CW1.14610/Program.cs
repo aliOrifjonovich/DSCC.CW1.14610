@@ -1,5 +1,7 @@
 using DSCC.CW1._14610.DBContexts;
+using DSCC.CW1._14610.Repository;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +12,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.WriteIndented = true;
+    });
+
 builder.Services.AddDbContext<FoodContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("FoodDB")));
+builder.Services.AddTransient<IFoodRepository, FoodRepository>();
 
 var app = builder.Build();
 
