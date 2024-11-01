@@ -22,6 +22,9 @@ builder.Services.AddControllers()
 builder.Services.AddDbContext<FoodContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("FoodDB")));
 builder.Services.AddTransient<IFoodRepository, FoodRepository>();
+builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+
+
 
 var app = builder.Build();
 
